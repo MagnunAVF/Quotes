@@ -7,3 +7,8 @@ services:
     volumes:
       - ./api/:/app
     working_dir: /app
+    command: puma
+    expose:
+      - 3000
+    ports:
+      - 5000:3000
