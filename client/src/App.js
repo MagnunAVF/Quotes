@@ -1,18 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-class App extends Component {
+const API_URL = 'http://localhost:5000'
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      quote: " ",
+    };
+  }
+
+  componentDidMount() {
+    this.getQuotes();
+  }
+
+  getQuotes = () => {
+    fetch(API_URL)
+    .then(response => response.json())
+    .then(json => this.setState({quote: json.quote}))
+  }
+
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        { this.state.quote !== " " ? (
+          <div>
+            <h1>Quote</h1>
+              <h3>{this.state.quote}</h3>
+            <button
+              className="more"
+              onClick={this.getQuotes}>
+              Give me another!
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h1>No Quote!</h1>
+            <button
+              className="more"
+              onClick={this.getQuotes}>
+              Give One
+            </button>
+          </div>
+        ) }
       </div>
     );
   }
